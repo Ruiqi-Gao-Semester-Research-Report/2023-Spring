@@ -1,0 +1,47 @@
+\begin{table*}[t]
+  \caption{Single-thread performance on Coreutils programs.
+    sym-stdin/sym-files/sym-arg indicate the number of symbolic inputs in stdin/files/CLI arguments ($n \times m$ means $n$ files with $m$ symbolic values;
+    $n + m$ means two symbolic arguments of size $n$ and $m$).
+    $T_\text{Query}$ is the actual constraint solving time (included in $T_\text{Solver}$).
+    %$T_\text{Solver} + T_\text{Exec}$ is end-to-end wall time.
+    }
+  \label{tab:bench_coreutils}
+  \centering
+  \setlength{\tabcolsep}{4pt}
+  \resizebox{55em}{!}{%
+  \begin{tabular}{cccc|cccccc|cccccccc}
+  \toprule
+  \multicolumn{4}{c|}{\textbf{Benchmark Configuration}} & \multicolumn{6}{c|}{\textbf{\textsc{KLEE}}} & \multicolumn{8}{c}{\textbf{\tool}} \\
+  & \textbf{sym-stdin} & \textbf{sym-files} & \textbf{sym-arg}
+  & \textbf{\begin{tabular}[c]{@{}c@{}}Path\\ Cov\end{tabular}}
+  & \textbf{\begin{tabular}[c]{@{}c@{}}Line\\ Cov\end{tabular}}
+  & $T_{\textbf{Query}}$
+  & $T_{\textbf{Solver}}$
+  & $T_{\textbf{Exec}}$
+  & $T_{\textbf{Whole}}$
+  & \textbf{\begin{tabular}[c]{@{}c@{}}Path\\ Cov\end{tabular}}
+  & \textbf{\begin{tabular}[c]{@{}c@{}}Line\\ Cov\end{tabular}}
+  & $T_{\textbf{Query}}$
+  & $T_{\textbf{Solver}}$
+  & $T_{\textbf{Exec}}$
+  & $T_{\textbf{Whole}}$
+  & \textbf{\begin{tabular}[c]{@{}c@{}}$T_\text{Exec}$ \\ Speedup\end{tabular}}
+  & \textbf{\begin{tabular}[c]{@{}c@{}}$T_\text{Whole}$ \\ Speedup\end{tabular}} \\
+  base32  &          2 &        2$\times$2 &        2 &      10521 &       73.33\% &            3.21 &             5.77 &          47.38 &           53.15 &        10621 &         73.33\% &             28.72 &              33.97 &            12.54 &             46.51 &        \textbf{3.78x} &         \textbf{1.14x} \\
+  base64  &          2 &        2$\times$2 &        2 &      10524 &       73.33\% &            3.26 &             5.83 &          47.50 &           53.33 &        10624 &         73.33\% &             28.89 &              34.12 &            12.49 &             46.61 &        \textbf{3.80x} &         \textbf{1.14x} \\
+  cat     &          2 &        -          &        2 &      29151 &       80.58\% &            5.07 &             9.88 &         126.34 &          136.22 &        28539 &         80.91\% &             25.80 &              34.53 &            28.49 &             63.02 &        \textbf{4.43x} &         \textbf{2.16x} \\
+  comm    &          2 &        2$\times$2 &      2+1 &      23846 &       70.11\% &            6.44 &            11.59 &         107.29 &          118.88 &        23846 &          72.3\% &             32.37 &              42.31 &            28.21 &             70.52 &        \textbf{3.80x} &         \textbf{1.69x} \\
+  cut     &          2 &        2$\times$2 &      2+2 &      28558 &       72.09\% &            6.05 &            11.20 &         129.58 &          140.79 &        28481 &         65.86\% &             16.63 &              21.54 &            33.48 &             55.01 &        \textbf{3.87x} &         \textbf{2.56x} \\
+  dirname &          2 &        -          &     6+10 &     287386 &       100.0\% &            1.29 &            18.28 &         341.51 &          359.79 &       287386 &         100.0\% &              2.61 &              10.98 &            93.84 &            104.83 &        \textbf{3.64x} &         \textbf{3.43x} \\
+  echo    &          - &        -          &      2+7 &     216136 &       84.17\% &            2.55 &             9.02 &         239.26 &          248.27 &       216136 &         84.17\% &              2.58 &               4.46 &            63.05 &             67.52 &        \textbf{3.79x} &         \textbf{3.68x} \\
+  expand  &          2 &        2$\times$2 &        2 &      10870 &       72.37\% &            4.18 &             6.85 &          49.11 &           55.96 &        10870 &         71.05\% &             37.65 &              42.98 &            13.03 &             56.01 &        \textbf{3.77x} &         \textbf{1.0x} \\
+  true    &          - &        -          &       10 &         16 &       100.0\% &            0.22 &             0.23 &           0.06 &            0.29 &           16 &         100.0\% &              0.02 &               0.04 &             0.03 &              0.07 &        \textbf{2.00x} &         \textbf{4.14x} \\
+  fold    &          2 &        2$\times$2 &        2 &      11015 &       74.36\% &            4.12 &             6.86 &          49.46 &           56.32 &        11015 &         74.36\% &             37.37 &              42.79 &            13.12 &             55.91 &        \textbf{3.77x} &         \textbf{1.01x} \\
+  join    &          2 &        2$\times$2 &      2+1 &      25054 &       71.75\% &           11.14 &            16.77 &         113.05 &          129.82 &        25046 &         70.93\% &             94.56 &             105.18 &            30.15 &            135.33 &        \textbf{3.75x} &         \textbf{0.96x} \\
+  link    &          2 &        2$\times$2 &    2+1+1 &      11233 &        60.0\% &            2.85 &             6.20 &          74.72 &           80.93 &        11233 &          60.0\% &              6.89 &              17.90 &            21.11 &             39.01 &        \textbf{3.54x} &         \textbf{2.07x} \\
+  paste   &          2 &        2$\times$2 &      2+1 &      24760 &       76.08\% &            7.10 &            12.28 &         110.96 &          123.23 &        22622 &         76.08\% &             36.27 &              45.91 &            26.41 &             72.32 &        \textbf{4.20x} &         \textbf{1.70x} \\
+  pathchk &          2 &        2$\times$2 &      2+2 &      10923 &       63.31\% &            6.69 &            11.95 &          50.57 &           62.52 &        10923 &         63.31\% &             35.50 &              46.20 &            15.32 &             61.51 &        \textbf{3.30x} &         \textbf{1.02x} \\ \bottomrule
+  \end{tabular}
+  }
+  \vspace{-1em}
+  \end{table*}
